@@ -1,0 +1,20 @@
+# 32 bit
+
+# Variables
+ASM = nasm
+ASM_FLAGS = -f elf
+LD = ld
+LD_FLAGS = -m elf_i386
+
+# Targets
+all: $(patsubst %.asm, %, $(wildcard *.asm))
+
+%: %.asm
+	$(ASM) $(ASM_FLAGS) $< -o $@.o
+	$(LD) $(LD_FLAGS) $@.o -o $@
+	@echo "Built $@"
+
+clean:
+	rm -f *.o $(patsubst %.asm, %, $(wildcard *.asm))
+	@echo "Cleaned up all binaries and object files."
+
